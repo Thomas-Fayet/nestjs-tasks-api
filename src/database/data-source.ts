@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import { join } from 'path';
 
+config({ path: `.env.${process.env.NODE_ENV}` });
 config();
 
 const isCompiled = __filename.endsWith('.js');
