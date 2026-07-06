@@ -10,12 +10,16 @@ export class TasksService {
   }
 
   async create(createTaskDto: CreateTaskDto, userId: number): Promise<Task> {
-    const task = Task.create({ ...createTaskDto, status: createTaskDto.status ?? 'pending', userId });
+    const task = Task.create({
+      ...createTaskDto,
+      status: createTaskDto.status ?? 'pending',
+      userId,
+    });
     return await task.save();
   }
 
   async findOne(id: number, userId: number): Promise<Task> {
-    const task =  await Task.findOne({ where: { id, userId } });
+    const task = await Task.findOne({ where: { id, userId } });
 
     if (!task) {
       throw new NotFoundException('Task not found');
@@ -24,7 +28,11 @@ export class TasksService {
     return task;
   }
 
-  async update(id: number, updateTaskDto: UpdateTaskDto, userId: number): Promise<Task> {
+  async update(
+    id: number,
+    updateTaskDto: UpdateTaskDto,
+    userId: number,
+  ): Promise<Task> {
     const task = await Task.findOne({ where: { id, userId } });
 
     if (!task) {

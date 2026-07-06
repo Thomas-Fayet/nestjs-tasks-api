@@ -1,5 +1,11 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEnum,
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { TaskPriority } from '../task.entity';
 
 export class UpdateTaskDto {
@@ -9,7 +15,9 @@ export class UpdateTaskDto {
   @IsNotEmpty()
   title?: string;
 
-  @ApiPropertyOptional({ example: 'The login button does not respond on mobile' })
+  @ApiPropertyOptional({
+    example: 'The login button does not respond on mobile',
+  })
   @IsString()
   @IsOptional()
   @IsNotEmpty()

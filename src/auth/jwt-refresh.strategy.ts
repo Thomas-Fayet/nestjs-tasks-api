@@ -5,7 +5,10 @@ import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 @Injectable()
-export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
+export class JwtRefreshStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-refresh',
+) {
   constructor(config: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -15,7 +18,9 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
   }
 
   validate(req: Request, payload: { sub: number; email: string }) {
-    const refreshToken = req.headers.authorization?.replace('Bearer ', '').trim();
+    const refreshToken = req.headers.authorization
+      ?.replace('Bearer ', '')
+      .trim();
     return { id: payload.sub, email: payload.email, refreshToken };
   }
 }

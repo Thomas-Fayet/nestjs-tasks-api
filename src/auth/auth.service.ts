@@ -12,7 +12,9 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async login(loginDto: LoginDto): Promise<{ access_token: string; refresh_token: string }> {
+  async login(
+    loginDto: LoginDto,
+  ): Promise<{ access_token: string; refresh_token: string }> {
     const user = await User.findOne({ where: { email: loginDto.email } });
 
     if (!user || !(await bcrypt.compare(loginDto.password, user.password))) {
@@ -24,7 +26,10 @@ export class AuthService {
     return tokens;
   }
 
-  async refresh(userId: number, refreshToken: string): Promise<{ access_token: string }> {
+  async refresh(
+    userId: number,
+    refreshToken: string,
+  ): Promise<{ access_token: string }> {
     const user = await User.findOne({ where: { id: userId } });
 
     if (!user || !user.refreshToken) {
@@ -37,7 +42,10 @@ export class AuthService {
     }
 
     return {
-      access_token: await this.jwtService.signAsync({ sub: user.id, email: user.email }),
+      access_token: await this.jwtService.signAsync({
+        sub: user.id,
+        email: user.email,
+      }),
     };
   }
 
@@ -59,7 +67,10 @@ export class AuthService {
     return { access_token, refresh_token };
   }
 
-  private async storeRefreshToken(user: User, refreshToken: string): Promise<void> {
+  private async storeRefreshToken(
+    user: User,
+    refreshToken: string,
+  ): Promise<void> {
     user.refreshToken = await bcrypt.hash(refreshToken, 10);
     await user.save();
   }

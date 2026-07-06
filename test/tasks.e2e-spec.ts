@@ -21,7 +21,9 @@ describe('Tasks (e2e)', () => {
     app = await createTestApp();
     dataSource = app.get(DataSource);
 
-    await dataSource.query('TRUNCATE TABLE "task", "user" RESTART IDENTITY CASCADE');
+    await dataSource.query(
+      'TRUNCATE TABLE "task", "user" RESTART IDENTITY CASCADE',
+    );
     await request(app.getHttpServer()).post('/users').send(userPayload);
     const { body } = await request(app.getHttpServer())
       .post('/auth/login')
@@ -119,9 +121,12 @@ describe('Tasks (e2e)', () => {
         .set('Authorization', `Bearer ${token}`)
         .send(taskPayload);
 
-      await request(app.getHttpServer())
-        .post('/users')
-        .send({ firstName: 'Jane', lastName: 'Doe', email: 'jane@example.com', password: 'Password1!' });
+      await request(app.getHttpServer()).post('/users').send({
+        firstName: 'Jane',
+        lastName: 'Doe',
+        email: 'jane@example.com',
+        password: 'Password1!',
+      });
 
       const { body } = await request(app.getHttpServer())
         .post('/auth/login')
@@ -158,9 +163,12 @@ describe('Tasks (e2e)', () => {
         .set('Authorization', `Bearer ${token}`)
         .send(taskPayload);
 
-      await request(app.getHttpServer())
-        .post('/users')
-        .send({ firstName: 'Jane', lastName: 'Doe', email: 'jane2@example.com', password: 'Password1!' });
+      await request(app.getHttpServer()).post('/users').send({
+        firstName: 'Jane',
+        lastName: 'Doe',
+        email: 'jane2@example.com',
+        password: 'Password1!',
+      });
 
       const { body } = await request(app.getHttpServer())
         .post('/auth/login')
@@ -193,9 +201,12 @@ describe('Tasks (e2e)', () => {
         .set('Authorization', `Bearer ${token}`)
         .send(taskPayload);
 
-      await request(app.getHttpServer())
-        .post('/users')
-        .send({ firstName: 'Jane', lastName: 'Doe', email: 'jane3@example.com', password: 'Password1!' });
+      await request(app.getHttpServer()).post('/users').send({
+        firstName: 'Jane',
+        lastName: 'Doe',
+        email: 'jane3@example.com',
+        password: 'Password1!',
+      });
 
       const { body } = await request(app.getHttpServer())
         .post('/auth/login')

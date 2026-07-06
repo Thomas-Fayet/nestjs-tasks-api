@@ -10,7 +10,6 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let jwtService: JwtService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,7 +17,10 @@ describe('AuthService', () => {
         AuthService,
         {
           provide: JwtService,
-          useValue: { sign: jest.fn().mockReturnValue('signed_token'), signAsync: jest.fn().mockResolvedValue('signed_token') },
+          useValue: {
+            sign: jest.fn().mockReturnValue('signed_token'),
+            signAsync: jest.fn().mockResolvedValue('signed_token'),
+          },
         },
         {
           provide: ConfigService,
@@ -28,14 +30,19 @@ describe('AuthService', () => {
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    jwtService = module.get<JwtService>(JwtService);
   });
 
   afterEach(() => jest.restoreAllMocks());
 
   describe('login', () => {
     const dto = { email: 'john@example.com', password: 'Password1!' };
-    const mockUser = { id: 1, email: 'john@example.com', password: 'hashed', refreshToken: null, save: jest.fn().mockResolvedValue(undefined) } as unknown as User;
+    const mockUser = {
+      id: 1,
+      email: 'john@example.com',
+      password: 'hashed',
+      refreshToken: null,
+      save: jest.fn().mockResolvedValue(undefined),
+    } as unknown as User;
 
     it('returns access_token and refresh_token when credentials are valid', async () => {
       jest.spyOn(User, 'findOne').mockResolvedValue(mockUser);

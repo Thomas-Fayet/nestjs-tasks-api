@@ -30,22 +30,39 @@ describe('TasksService', () => {
 
   describe('create', () => {
     it('creates a task with pending status by default', async () => {
-      const mockTask = { save: jest.fn().mockResolvedValue(undefined) } as unknown as Task;
+      const mockTask = {
+        save: jest.fn().mockResolvedValue(undefined),
+      } as unknown as Task;
       jest.spyOn(Task, 'create').mockReturnValue(mockTask);
 
       await service.create({ title: 'Test', description: 'Desc' }, 1);
 
-      expect(Task.create).toHaveBeenCalledWith({ title: 'Test', description: 'Desc', status: 'pending', userId: 1 });
+      expect(Task.create).toHaveBeenCalledWith({
+        title: 'Test',
+        description: 'Desc',
+        status: 'pending',
+        userId: 1,
+      });
       expect(mockTask.save).toHaveBeenCalled();
     });
 
     it('uses provided status when given', async () => {
-      const mockTask = { save: jest.fn().mockResolvedValue(undefined) } as unknown as Task;
+      const mockTask = {
+        save: jest.fn().mockResolvedValue(undefined),
+      } as unknown as Task;
       jest.spyOn(Task, 'create').mockReturnValue(mockTask);
 
-      await service.create({ title: 'Test', description: 'Desc', status: 'in_progress' }, 1);
+      await service.create(
+        { title: 'Test', description: 'Desc', status: 'in_progress' },
+        1,
+      );
 
-      expect(Task.create).toHaveBeenCalledWith({ title: 'Test', description: 'Desc', status: 'in_progress', userId: 1 });
+      expect(Task.create).toHaveBeenCalledWith({
+        title: 'Test',
+        description: 'Desc',
+        status: 'in_progress',
+        userId: 1,
+      });
     });
   });
 
@@ -56,7 +73,9 @@ describe('TasksService', () => {
 
       const result = await service.findOne(1, 1);
 
-      expect(Task.findOne).toHaveBeenCalledWith({ where: { id: 1, userId: 1 } });
+      expect(Task.findOne).toHaveBeenCalledWith({
+        where: { id: 1, userId: 1 },
+      });
       expect(result).toEqual(task);
     });
 
@@ -88,13 +107,18 @@ describe('TasksService', () => {
     it('throws NotFoundException when task does not exist', async () => {
       jest.spyOn(Task, 'findOne').mockResolvedValue(null);
 
-      await expect(service.update(1, { title: 'New' }, 1)).rejects.toThrow(NotFoundException);
+      await expect(service.update(1, { title: 'New' }, 1)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
   describe('remove', () => {
     it('removes the task', async () => {
-      const mockTask = { id: 1, remove: jest.fn().mockResolvedValue(undefined) } as unknown as Task;
+      const mockTask = {
+        id: 1,
+        remove: jest.fn().mockResolvedValue(undefined),
+      } as unknown as Task;
       jest.spyOn(Task, 'findOne').mockResolvedValue(mockTask);
 
       await service.remove(1, 1);

@@ -31,13 +31,21 @@ describe('UsersService', () => {
     it('hashes the password and saves the user', async () => {
       jest.spyOn(User, 'findOne').mockResolvedValue(null);
       (bcrypt.hash as jest.Mock).mockResolvedValue('hashed_password');
-      const mockUser = { ...dto, id: 1, password: 'hashed_password', save: jest.fn() } as unknown as User;
+      const mockUser = {
+        ...dto,
+        id: 1,
+        password: 'hashed_password',
+        save: jest.fn(),
+      } as unknown as User;
       (mockUser.save as jest.Mock).mockResolvedValue(mockUser);
       jest.spyOn(User, 'create').mockReturnValue(mockUser);
 
       await service.create(dto);
 
-      expect(User.create).toHaveBeenCalledWith({ ...dto, password: 'hashed_password' });
+      expect(User.create).toHaveBeenCalledWith({
+        ...dto,
+        password: 'hashed_password',
+      });
       expect(mockUser.save).toHaveBeenCalled();
     });
 

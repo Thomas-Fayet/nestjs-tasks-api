@@ -1,5 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEnum,
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { TaskPriority } from '../task.entity';
 
 export class CreateTaskDto {
@@ -13,7 +19,10 @@ export class CreateTaskDto {
   @IsNotEmpty()
   description: string;
 
-  @ApiPropertyOptional({ enum: ['pending', 'in_progress', 'completed'], default: 'pending' })
+  @ApiPropertyOptional({
+    enum: ['pending', 'in_progress', 'completed'],
+    default: 'pending',
+  })
   @IsOptional()
   @IsIn(['pending', 'in_progress', 'completed'])
   status?: string;
