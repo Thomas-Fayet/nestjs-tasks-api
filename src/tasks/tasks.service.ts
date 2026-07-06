@@ -34,6 +34,7 @@ export class TasksService {
     task.title = updateTaskDto.title ?? task.title;
     task.description = updateTaskDto.description ?? task.description;
     task.status = updateTaskDto.status ?? task.status;
+    task.priority = updateTaskDto.priority ?? task.priority;
 
     return await task.save();
   }
